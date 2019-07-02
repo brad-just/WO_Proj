@@ -1,0 +1,54 @@
+.table-fit{
+  width: auto;
+}
+
+.table-head {
+  position: sticky;
+}
+
+.bg-cream {
+  background-color: #FBFAF6;
+}
+
+.bg-dark-grey {
+  background-color: #333333;
+  color: #F6F6F6;
+}
+
+.bg-red {
+  background-color: #B3292A;
+}
+
+.text-white {
+  color: #F6F6F6;
+}
+
+.department-tag-container1 {
+  margin-bottom: 2%;
+  margin-left: 2%;
+  text-align: center;
+  background-color: #333333;
+  color: #F6F6F6;
+}
+
+.department-tag-container2 {
+  vertical-align: middle;
+  margin: 1%;
+}
+
+.department-tag-text {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.just-logo {
+  margin-right: 2%;
+  margin-bottom: 2%;
+  height: auto;
+  width: auto;
+}
+
+.logo-dims{
+  height: 100px;
+  width: 300px;
+}
