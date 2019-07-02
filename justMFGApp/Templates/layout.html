@@ -17,13 +17,14 @@
 
   </head>
 
-  <nav class="navbar navbar-expand-xl bg-red">
+  <nav class="navbar navbar-expand-xl bg-red justify-content-between">
     <a class="navbar-brand text-white" href="{{ url_for( 'index' ) }}">Just MFG Work Orders</a>
+    <a class="navbar-brand text-white" href="{{ url_for( 'logout' ) }}">Logout</a>
   </nav>
 
   <body class="bg-cream">
     <div class="container-fluid">
-      <div class="row align-items-start">
+      <div class="row align-items-start table-window">
 
         {% block content %}{% endblock %}
 
@@ -31,7 +32,7 @@
 
       <div class="row align-items-end justify-content-between">
 
-          <div class="department-tag-container1">
+          <div class="department-tag-container1 rounded-sm">
             <div class="department-tag-container2">
               <h2 class="text-center font-weight-normal">{{ orders.department }} Department</h2>
             </div>

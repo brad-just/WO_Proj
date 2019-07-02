@@ -1,5 +1,15 @@
-.table-fit{
-  width: auto;
+.form-title {
+  text-align: center;
+}
+
+.form-center {
+  padding-top: 15%;
+  padding-bottom: 15%;
+}
+
+.table-window {
+  overflow: auto;
+  height: 550px;
 }
 
 .table-head {
