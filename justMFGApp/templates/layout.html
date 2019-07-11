@@ -23,24 +23,25 @@
   </nav>
 
   <body class="bg-cream">
-    <div class="container-fluid">
-      <div class="row align-items-start table-window">
+    <div class="container-fluid table-container">
+        <div class="row table-responsive no-gutters">
 
-        {% block content %}{% endblock %}
+          {% block content %}{% endblock %}
 
-      </div>
+        </div>
 
-      <div class="row align-items-end justify-content-between">
-
-          <div class="department-tag-container1 rounded-sm">
-            <div class="department-tag-container2">
-              <h2 class="text-center font-weight-normal">{{ orders.department }} Department</h2>
+      <div class="row row-padding align-items-end justify-content-between">
+        <div class="col-2">
+            <div class="department-tag-container1 rounded-sm">
+              <p class="h2 text-center font-weight-normal">{{ orders.department }} Department</p>
             </div>
-          </div>
+        </div>
 
-          <div class="just-logo">
-            <img src="{{ url_for('static', filename='just-manufacturing-logo.png') }}" class="img-fluid logo-dims" alt="Responsive image">
-          </div>
+        <div class="col-2">
+            <div class="just-logo">
+              <img src="{{ url_for('static', filename='just-manufacturing-logo.png') }}" class="img-fluid logo-dims" alt="Responsive image">
+            </div>
+        </div>
 
     </div>
     </div>

@@ -4,7 +4,7 @@
 {% block content %}
 
 
-<table class="table table-responsive table-striped">
+<table class="table table-striped table-window">
   <thead class="bg-dark-grey">
     <tr>
 
@@ -35,7 +35,7 @@
         <td><button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#modal-{{ loop.index }}">PDF</button></td>
         <!-- Modal -->
         <div class="modal fade" id="modal-{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-lg g-cream" role="document">
+          <div class="modal-dialog modal-lg bg-cream" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">{{ order['ItemID'] }}</h5>
@@ -44,7 +44,11 @@
                 </button>
               </div>
               <div class="modal-body">
+<<<<<<< HEAD
                 <embed src="{{ url_for('productionPDFs', filename=order['ItemID']+'.pdf') }}" frameborder="0" width="100%" height="500px">
+=======
+                <embed src="{{ url_for('static', filename='SLADA1613A.pdf') }}" frameborder="0" width="100%" height="700px">
+>>>>>>> dea287103a9ed854bc271b21a6c2dc7dfd977f36
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
