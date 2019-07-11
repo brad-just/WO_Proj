@@ -6,10 +6,13 @@ from datetime import datetime
 
 #Function specifically designed convert a string to 0 for sorting purposes
 #(i.e. strings will be inserted at the beginning)
-def strToZero(dic, t):
+def stringAndIntConverters(dic, t):
     val = dic[t]
     if(isinstance(val,str)):
-        val = 0
+        if(val.isnumeric()):
+            val = int(val)
+        else:
+            val = 0
     return(val)
 
 @app.route("/", methods=['POST', 'GET'])
@@ -24,10 +27,7 @@ def index():
                 Data.descending = True
             for title in Data.header:
                 if(title in request.form):
-                    if(title == 'Sales Order'):
-                        Data.sort(criteria=lambda i: (strToZero(i,title), i[title])) #Because 'STOCK' appears in this field, we need to convert everything to a string before sorting
-                    else:
-                        Data.sort(criteria=itemgetter(title)) #Sort dictionary by the title field
+                    Data.sort(criteria=lambda i: (stringAndIntConverters(i,title), i[title])) #Because 'STOCK' appears in this field, we need to convert everything to a string before sorting
         return(render_template("index.html", orders=Data, datetime=datetime))
     else:
         return(redirect(url_for('login')))

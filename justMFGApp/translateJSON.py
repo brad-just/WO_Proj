@@ -1,5 +1,17 @@
 import json
 import csv
+import re
+
+def strToInt(dict):
+    '''
+    If a dictionary value is numeric, it will be changed to an integer
+    '''
+    number_regex = re.compile(r"^\d*[.]?\d*$") #regular expression for a number or decimal number
+    for entry in dict:
+        if(isinstance(dict[entry], str)):
+            if(number_regex.match(dict[entry]) and dict[entry] is not ''):
+                dict[entry] = int(float(dict[entry])) #convert all numbers to integers
+    return(dict)
 
 def translateJSON(readPath, writePath, head=None, sep=',' ):
     '''
@@ -15,6 +27,7 @@ def translateJSON(readPath, writePath, head=None, sep=',' ):
         if(head):
             next(reader)
         for row in reader:
+            row = strToInt(row)
             data.append(row)
 
     with open(jsonFilePath, 'w') as jsonFile:
