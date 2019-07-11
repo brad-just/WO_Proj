@@ -2,6 +2,15 @@
   text-align: center;
 }
 
+.modal-height {
+  height: 100%;
+  max-height: 800px;
+}
+
+.modal-body-height {
+  height: 90%;
+}
+
 .form-center {
   padding-top: 15%;
   padding-bottom: 15%;
@@ -9,7 +18,11 @@
 
 .table-window {
   overflow: auto;
-  height: 550px;
+}
+
+.table-container {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .table-head {
@@ -33,22 +46,15 @@
   color: #F6F6F6;
 }
 
+.row-padding {
+  padding: 1%;
+}
+
 .department-tag-container1 {
-  margin-bottom: 2%;
-  margin-left: 2%;
+  min-width: 200px;
   text-align: center;
   background-color: #333333;
   color: #F6F6F6;
-}
-
-.department-tag-container2 {
-  vertical-align: middle;
-  margin: 1%;
-}
-
-.department-tag-text {
-  margin-top: auto;
-  margin-bottom: auto;
 }
 
 .just-logo {
@@ -56,6 +62,7 @@
   margin-bottom: 2%;
   height: auto;
   width: auto;
+  min-width: 200px;
 }
 
 .logo-dims{
