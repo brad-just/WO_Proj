@@ -1,4 +1,4 @@
-from flask import render_template, url_for, request, redirect, session
+from flask import render_template, url_for, request, redirect, session, send_from_directory
 from justMFGApp import app, Data
 from justMFGApp.forms import DepartmentForm
 from operator import itemgetter
@@ -54,5 +54,6 @@ def logout():
     Data.setDepartment('')
     return(redirect(url_for('login')))
 
-
-    
+@app.route("/SQL-ERP/ProjectEngineering/Production Drawings/<path:filename>")
+def productionPDFs(filename):
+    return(send_from_directory(app.config['PRODUCTION_PDFS'], filename))
