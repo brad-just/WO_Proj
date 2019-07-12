@@ -11,7 +11,7 @@
       <th scope="col">#</th>
 
       {% for col in orders.header %}
-        <th scope="col"><form method="post" action="/"><input class="btn btn-link btn-sm" type="submit" name="{{ col }}" value="{{ col }}"></form></th>
+        <th id="{{ col }}"scope="col"><form method="post" action="{{ url_for('index', _anchor=col) }}"><input class="btn btn-link btn-sm" type="submit" name="{{ col }}" value="{{ col }}"></form></th>
       {% endfor %}
 
       <th scope="col"></th>
