@@ -11,8 +11,8 @@ app.config['PRODUCTION_PDFS'] = "//SQL-ERP/ProjectEngineering/Production Drawing
 Data = WorkOrders()
 
 #Create new JSON
-readPath = '/home/bradjust/WorkOrderApp/WO_Proj/justMFGApp/JSON/MattG_TestFileforJSON.txt'
-writePath = '/home/bradjust/WorkOrderApp/WO_Proj/justMFGApp/JSON/MattG_TestFileforJSON.json'
+readPath = '/Users/bradjust/desktop/projects/Just MFG Projects/WorkOrderProj_Python/justMFGApp/JSON/MattG_TestFileforJSON.txt'
+writePath = '/Users/bradjust/desktop/projects/Just MFG Projects/WorkOrderProj_Python/justMFGApp/JSON/MattG_TestFileforJSON.json'
 
 header = ['WorkOrderNo', 'SoftWONo', 'TranNoRel', 'LineNo', 'QtyOrd', 'LineStatus', 'TranDate', 'PromiseDate', \
           'ItemID', 'Short Description','Hold', 'HoldReason','CustName', 'PrintedExpectShipRpt', 'QtyOnBO',\

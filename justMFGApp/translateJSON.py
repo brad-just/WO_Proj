@@ -2,16 +2,33 @@ import json
 import csv
 import re
 
-def strToInt(dict):
+def strToInt(string):
     '''
-    If a dictionary value is numeric, it will be changed to an integer
+    If a string is a integer or decimal number it is converted to an int type
     '''
     number_regex = re.compile(r"^\d*[.]?\d*$") #regular expression for a number or decimal number
-    for entry in dict:
-        if(isinstance(dict[entry], str)):
-            if(number_regex.match(dict[entry]) and dict[entry] is not ''):
-                dict[entry] = int(float(dict[entry])) #convert all numbers to integers
-    return(dict)
+    if(isinstance(string, str)):
+        if(number_regex.match(string) and string is not ''):
+            string = int(float(string)) #convert all numbers to integers
+    return(string)
+
+def transformDate(string):
+    '''
+    If a string is a date then chop off the hours, minutes, and seconds
+    '''
+    if(isinstance(string,str)):
+        if('00:00:00' in string):
+            string = string[0:-9] #Chop off the 00:00:00
+    return(string)
+
+
+def conversions(dic_value):
+    '''
+    Transforms dictionary values if they meet certain criteria
+    '''
+    dic_value = strToInt(dic_value)
+    dic_value = transformDate(dic_value)
+    return(dic_value)
 
 def translateJSON(readPath, writePath, head=None, sep=',' ):
     '''
@@ -27,13 +44,9 @@ def translateJSON(readPath, writePath, head=None, sep=',' ):
         if(head):
             next(reader)
         for row in reader:
-            row = strToInt(row)
+            for entry in row:
+                row[entry] = conversions(row[entry])
             data.append(row)
 
     with open(jsonFilePath, 'w') as jsonFile:
         jsonFile.write(json.dumps(data))
-
-
-
-textFilePath = "MattG_TestFileforJSON.txt"
-jsonFilePath = "Matt_G_TestFileforJSON.json"
