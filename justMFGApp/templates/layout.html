@@ -23,17 +23,14 @@
   </nav>
 
   <body class="bg-cream">
-    <div class="container-fluid table-container">
-        <div class="row table-responsive no-gutters">
+    <div class="container-fluid no-margins">
 
-          {% block content %}{% endblock %}
-
-        </div>
+      {% block content %}{% endblock %}
 
       <div class="row row-padding align-items-end justify-content-between">
         <div class="col-2">
             <div class="department-tag-container1 rounded-sm">
-              <p class="h2 text-center font-weight-normal">{{ orders.department }} Department</p>
+              <p class="h2 text-center font-weight-normal">{{ gen_orders.department }} Department</p>
             </div>
         </div>
 
@@ -43,7 +40,7 @@
             </div>
         </div>
 
-    </div>
+      </div>
     </div>
 
     <!-- Optional JavaScript -->
@@ -56,6 +53,13 @@
       $(document).ready(function(){
         $('[data-toggle="popover"]').popover();
       });
+    </script>
+
+    <!-- Set maximum table heights dynamically -->
+
+    <script>
+        $("#topTable").css("max-height", $(window).height() * .3);
+        $("#bottomTable").css("max-height", $(window).height() * .7);
     </script>
   </body>
 </html>

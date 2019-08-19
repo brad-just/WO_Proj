@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.secret_key = config['sec_key']
 
 #Create a new WorkOrders object called data
-WO_Data = WorkOrders()
+WO_Data_Gen = WorkOrders()
+WO_Data_BowlCust = WorkOrders()
 
 from justMFGApp import routes

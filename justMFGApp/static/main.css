@@ -7,11 +7,7 @@
   padding-bottom: 15%;
 }
 
-.table-window {
-  overflow: auto;
-}
-
-.table-container {
+.no-margins {
   padding-left: 0;
   padding-right: 0;
 }
