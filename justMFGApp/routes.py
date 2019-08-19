@@ -23,7 +23,7 @@ def index():
         else:
             WO_Data.setDataFromSQL(host=config['sql_host'], user=config['sql_user'], password=config['sql_password'], database=config['sql_db'], \
                                    query=build_sql_query(WO_Data.department))
-        return(render_template("index.html", orders=WO_Data, datetime=datetime))
+        return(render_template("index.html", orders=WO_Data))
     else:
         return(redirect(url_for('login')))
 
