@@ -3,25 +3,10 @@ from justMFGApp import app, WO_Data
 from justMFGApp.config import config
 from justMFGApp.forms import DepartmentForm
 from justMFGApp.sql_queries import build_sql_query
-from operator import itemgetter
-from datetime import datetime
-
-#Function specifically designed convert a string to 0 for sorting purposes
-#(i.e. strings will be inserted at the beginning)
-def stringAndIntConverters(dic, t):
-    val = dic[t]
-    if(isinstance(val,str)):
-        if(val.isnumeric()):
-            val = int(val)
-        else:
-            val = 0
-    return(val)
 
 @app.route("/", methods=['POST', 'GET'])
 @app.route("/index", methods=['POST', 'GET'])
 def index():
-
-
     if(session.get('logged_in')):
 
         #Set the department
