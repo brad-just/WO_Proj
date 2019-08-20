@@ -17,7 +17,7 @@
 
           {% if col != 'LongDesc' %}
 
-            <th id="{{ col }}" scope="col"><form method="post" action="{{ url_for('index', _anchor=col) }}"><input class="btn btn-link btn-sm" type="submit" name="top_key" value="{{ col }}"></form></th>
+            <th id="top-table-{{ col }}" scope="col"><form method="post" action="{{ url_for('index', _anchor=col) }}"><input class="btn btn-link btn-sm" type="submit" name="top_key" value="{{ col }}"></form></th>
 
           {% endif %}
 
@@ -25,18 +25,19 @@
 
       </tr>
     </thead>
+
     <tbody class="table-bordered">
       {% for order in bowlcust_orders.data %}
         {% set outer_index = loop.index %}
         <tr>
-          <th nowrap scope="row">{{ outer_index }}</th>
+          <th id="bowlcust-{{ outer_index }}-index" nowrap scope="row">{{ outer_index }}</th>
         {% for entry in bowlcust_orders.header %}
 
           {% if entry == "ItemID" %}
 
-            <td nowrap><button type="button" class="btn btn-link" data-toggle="modal" data-target="#modal-{{ outer_index }}">{{ order['ItemID'] }}</button></td>
+            <td id="bowlcust-{{ outer_index }}-{{ entry }}" nowrap><button type="button" class="btn btn-link" data-toggle="modal" data-target="#top-modal-{{ outer_index }}">{{ order['ItemID'] }}</button></td>
             <!-- Modal -->
-            <div class="modal fade" id="modal-{{ outer_index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade" id="top-modal-{{ outer_index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="modal-dialog modal-lg bg-cream" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -57,11 +58,11 @@
 
           {% elif entry == "ShortDesc" %}
 
-            <td nowrap><button tabindex="0" type="button" class="btn btn-link" data-toggle="popover" data-trigger="focus" title="Long Description" data-content="{{ order['LongDesc'] }}">{{ order['ShortDesc'] }}</button></td>
+            <td id="bowlcust-{{ outer_index }}-{{ entry }}" nowrap><button tabindex="0" type="button" class="btn btn-link" data-toggle="popover" data-trigger="focus" title="Long Description" data-content="{{ order['LongDesc'] }}">{{ order['ShortDesc'] }}</button></td>
 
           {% elif entry != "LongDesc" %}
 
-            <td nowrap>{{ order[entry] }}</td>
+            <td id="bowlcust-{{ outer_index }}-{{ entry }}" nowrap>{{ order[entry] }}</td>
 
           {% endif %}
         {% endfor %}
@@ -73,8 +74,6 @@
 
   </table>
 </div>
-
-
 
 <!-- Bottom Table -->
 
@@ -89,7 +88,7 @@
 
           {% if col != 'LongDesc' %}
 
-            <th id="{{ col }}"scope="col"><form method="post" action="{{ url_for('index', _anchor=col) }}"><input class="btn btn-link btn-sm" type="submit" name="bottom_key" value="{{ col }}"></form></th>
+            <th id="bottom-table-{{ col }}"scope="col"><form method="post" action="{{ url_for('index', _anchor=col) }}"><input class="btn btn-link btn-sm" type="submit" name="bottom_key" value="{{ col }}"></form></th>
 
           {% endif %}
 
@@ -97,18 +96,19 @@
 
       </tr>
     </thead>
+
     <tbody class="table-bordered">
       {% for order in gen_orders.data %}
         {% set outer_index = loop.index %}
         <tr>
-          <th nowrap scope="row">{{ outer_index }}</th>
+          <th id="gen-{{ outer_index }}-index" nowrap scope="row">{{ outer_index }}</th>
         {% for entry in gen_orders.header %}
 
           {% if entry == "ItemID" %}
 
-            <td nowrap><button type="button" class="btn btn-link" data-toggle="modal" data-target="#modal-{{ outer_index }}">{{ order['ItemID'] }}</button></td>
+            <td id="gen-{{ outer_index }}-{{ entry }}" nowrap><button type="button" class="btn btn-link" data-toggle="modal" data-target="#bottom-modal-{{ outer_index }}">{{ order['ItemID'] }}</button></td>
             <!-- Modal -->
-            <div class="modal fade" id="modal-{{ outer_index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade" id="bottom-modal-{{ outer_index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="modal-dialog modal-lg bg-cream" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -129,11 +129,11 @@
 
           {% elif entry == "ShortDesc" %}
 
-            <td nowrap><button tabindex="0" type="button" class="btn btn-link" data-toggle="popover" data-trigger="focus" title="Long Description" data-content="{{ order['LongDesc'] }}">{{ order['ShortDesc'] }}</button></td>
+            <td id="gen-{{ outer_index }}-{{ entry }}" nowrap><button tabindex="0" type="button" class="btn btn-link" data-toggle="popover" data-trigger="focus" title="Long Description" data-content="{{ order['LongDesc'] }}">{{ order['ShortDesc'] }}</button></td>
 
           {% elif entry != "LongDesc" %}
 
-            <td nowrap>{{ order[entry] }}</td>
+            <td id="gen-{{ outer_index }}-{{ entry }}" nowrap>{{ order[entry] }}</td>
 
           {% endif %}
         {% endfor %}
@@ -145,5 +145,28 @@
 
   </table>
 </div>
+
+<!-- Set maximum table heights dynamically -->
+
+<script>
+    $("#topTable").css("max-height", $(window).height() * .3);
+    $("#bottomTable").css("max-height", $(window).height() * .7);
+</script>
+
+{% for order in bowlcust_orders.data %}
+  {% set outer_index = loop.index %}
+
+  <script>$("#bowlcust-{{ outer_index }}-index").width($("#gen-1-index").width());</script>
+
+  {% for entry in bowlcust_orders.header %}
+
+    {% if entry != "LongDesc" %}
+
+      <script>$("#bowlcust-{{ outer_index }}-{{ entry }}").width($("#gen-1-{{ entry }}").width());</script>
+
+    {% endif %}
+
+  {% endfor %}
+{% endfor %}
 
 {% endblock content %}
