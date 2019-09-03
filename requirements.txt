@@ -12,5 +12,6 @@ pyasn1==0.4.5
 pymssql==2.1.4
 rsa==3.4.2
 s3transfer==0.2.0
+simplejson==3.16.0
 Werkzeug==0.15.4
 WTForms==2.2.1
