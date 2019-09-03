@@ -12,9 +12,6 @@
   padding-right: 0;
 }
 
-.table-head {
-  position: sticky;
-}
 
 .bg-cream {
   background-color: #FBFAF6;
@@ -55,4 +52,8 @@
 .logo-dims{
   height: 100px;
   width: 300px;
+}
+
+.long-desc-margin {
+  margin-top: 50px;
 }

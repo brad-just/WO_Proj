@@ -6,12 +6,10 @@ def myconverter(o):
     if isinstance(o, datetime.date):
         return o.__str__()
 
-class WorkOrders(object):
+class Table(object):
     def __init__(self):
         self.data = [{}]
         self.header = [] #List representing the table headers
-        self.department = ''
-        self.descending = False #Initialized to false but will have no effect until the user sorts for the first time
 
     def setDataFromJSONFile(self, json_path):
         with open(json_path, 'r') as read_file: #open the json dump file for reading
@@ -32,8 +30,7 @@ class WorkOrders(object):
         cursor.close()
         conn.close()
 
-    def SQLtoJSONFile(self, host, user, password, database, query):
-        write_file = "/Users/bradjust/Projects/Just MFG Projects/WO_Proj_v3/justMFGApp/static/json/{}.json".format(self.department)
+    def SQLtoJSONFile(self, host, user, password, database, query, file):
 
         conn = pymssql.connect(host=host, user=user, password=password, database=database)
         cursor = conn.cursor(as_dict=True)
@@ -46,7 +43,7 @@ class WorkOrders(object):
         cursor.close()
         conn.close()
 
-        with open(write_file, 'w') as jsonFile:
+        with open(file, 'w') as jsonFile:
             jsonFile.write(json.dumps(data, default=myconverter))
 
     def setDepartment(self, dept):

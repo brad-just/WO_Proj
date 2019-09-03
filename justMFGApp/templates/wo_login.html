@@ -1,10 +1,10 @@
-{% extends "layout.html" %}
+{% extends "wo_layout.html" %}
 
 {% block content %}
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-4 form-center">
-      <form action="{{ url_for( 'login' ) }}" method=post>
+      <form action="{{ url_for( 'wo_login' ) }}" method=post>
         <div class="form-group form-title">
           <h3>{{ form.department.label }}</h3>
           <br>

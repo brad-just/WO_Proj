@@ -1,0 +1,269 @@
+{% extends "wo_layout.html" %}
+
+
+{% block content %}
+
+<div class="row mt-5">
+  <div class="col">
+    <div id="toolbarGen" class="row">
+      <p class="h3 text-center font-weight-light font-italic ml-3">{{ gen_orders.department }} Orders</p>
+    </div>
+    <table
+      id="gen-table"
+      data-toggle="table"
+      data-toolbar="#toolbarGen"
+      data-height="500"
+      data-search="true"
+      data-sortable="true"
+      data-show-columns="true"
+      data-show-footer="true">
+      <thead>
+        <tr>
+          {% for header in gen_orders.header %}
+
+            {% if header != 'LongDesc' and header != 'WorkOrderKey'%}
+              {% if header == 'TranNoRel' %}
+
+                <th data-field="{{ header }}" data-sortable="true" data-footer-formatter="totalWords">{{ header }}</th>
+
+              {% elif header == 'SOLineNo' %}
+
+                <th data-field="{{ header }}" data-sortable="true" data-footer-formatter="totalOrders">{{ header }}</th>
+
+              {% elif header == 'Quantity'  or header == 'QuantityToDate'%}
+
+                <th data-field="{{ header }}" data-sortable="true" data-footer-formatter="sumColumn">{{ header }}</th>
+
+              {% else %}
+
+                <th data-field="{{ header }}" data-sortable="true">{{ header }}</th>
+
+              {% endif %}
+
+            {% endif %}
+
+          {% endfor %}
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in gen_orders.data %}
+          <tr>
+            {% set index = loop.index %}
+            {% for col in gen_orders.header %}
+              {% if col == 'ItemID' %}
+                <td nowrap>
+                  <form method="post" action="{{ url_for('workOrders') }}">
+                    <input id="gen-body-{{ col }}-{{ row[col] }}" class="btn btn-link btn-sm p-2" type="submit" name="ItemID" value="{{ row[col] }}">
+                    <input id="gen-body-ShortDesc-{{ row['ShortDesc'] }}" type="hidden" name="ShortDesc" value="{{ row['ShortDesc'] }}">
+                    <input id="gen-body-LongDesc-{{ row['LongDesc'] }}" type="hidden" name="LongDesc" value="{{ row['LongDesc'] }}">
+                    <input id="gen-body-index-{{ index }}" type="hidden" name="index" value="{{ index - 1 }}">
+                    <input id="gen-body-WOKey-{{ index }}" type="hidden" name="WorkOrderKey" value="{{ row['WorkOrderKey'] }}">
+                  </form>
+                </td>
+              {% elif col != 'LongDesc' and col != 'WorkOrderKey'%}
+                <td nowrap>{{ row[col] }}</td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% if long_description %}
+<div class="row mt-5">
+
+  <div class="col-sm-6">
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Item ID</h5>
+            <p class="card-text">{{ item_id }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Short Description</h5>
+              <p class="card-text">{{ short_description }}</p>
+            </div>
+          </div>
+      </div>
+
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-sm">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Long Description</h5>
+            <p class="card-text">{{ long_description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-sm">
+        <div id="toolbar-mat">
+          <p class="h3 text-center font-weight-light font-italic">Steps</p>
+        </div>
+        <table
+          id="mat_items-table"
+          data-toggle="table"
+          data-height="420"
+          data-toolbar="#toolbar-mat"
+          data-search="true"
+          data-show-columns="true">
+          <thead>
+            <tr>
+
+              <th data-field="Step">Step</th>
+              {% for header in MaterialItems.header %}
+
+                  {% if header != 'LongDesc' %}
+
+                    <th data-field="{{ header }}">{{ header }}</th>
+
+                  {% endif %}
+
+              {% endfor %}
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in MaterialItems.data %}
+              <tr>
+                {% set index = loop.index %}
+                  <td nowrap class="font-weight-bold">{{ index }}</td>
+                {% for col in MaterialItems.header %}
+
+                  {% if col != 'LongDesc' %}
+
+                    {% if col == 'ShortDesc' %}
+                      <td nowrap>
+                        <a tabindex="0"
+                           class="btn-link"
+                           role="button"
+                           data-toggle="popover"
+                           data-trigger="focus"
+                           title="Long Description"
+                           data-content="{{ row['LongDesc'] }}">
+                            {{ row['ShortDesc'] }}
+                        </a>
+                      </td>
+                    {% else %}
+
+                      <td nowrap>{{ row[col] }}</td>
+
+                    {% endif %}
+
+                  {% endif %}
+
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6">
+    <div class="container-fluid">
+      <embed src="{{ url_for('pdfs.static', filename='{}.pdf'.format(item_id)) }}" frameborder="0" width="100%" height="700px">
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-sm">
+    <div id="toolbar-additional">
+      <p class="h3 text-center font-weight-light font-italic">All Orders with ID: {{ item_id }}</p>
+    </div>
+    <table
+      id="additional_orders-table"
+      data-toggle="table"
+      data-height="420"
+      data-toolbar="#toolbar-additional"
+      data-search="true"
+      data-sortable="true"
+      data-show-columns="true"
+      data-show-footer="true">
+      <thead>
+        <tr>
+
+          {% for header in additional_orders.header %}
+
+            {% if header != 'LongDesc' and header != 'WorkOrderKey'%}
+              {% if header == 'TranNoRel' %}
+
+                <th data-field="{{ header }}" data-sortable="true" data-footer-formatter="totalWords">{{ header }}</th>
+
+              {% elif header == 'SOLineNo' %}
+
+                <th data-field="{{ header }}" data-sortable="true" data-footer-formatter="totalOrders">{{ header }}</th>
+
+              {% elif header == 'Quantity'  or header == 'QuantityToDate'%}
+
+                <th data-field="{{ header }}" data-sortable="true" data-footer-formatter="sumColumn">{{ header }}</th>
+
+              {% else %}
+
+                <th data-field="{{ header }}" data-sortable="true">{{ header }}</th>
+
+              {% endif %}
+
+            {% endif %}
+
+          {% endfor %}
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in additional_orders.data %}
+          <tr>
+            {% for col in additional_orders.header %}
+              {% if col != 'LongDesc' and col != 'WorkOrderKey'%}
+                <td nowrap>{{ row[col] }}</td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+<script>
+  var $table = $('#gen-table')
+
+  $(function() {
+      $table.bootstrapTable('scrollTo', {unit: 'rows', value: {{ scrollToIndex }}})
+  })
+
+  function totalWords(){
+    return 'Total'
+  }
+
+  function totalOrders(data){
+    return data.length
+  }
+
+  function sumColumn(data){
+    var field = this.field
+    var sum = 0
+    data.forEach(function(row){
+      sum += Number(row[field])
+    })
+    return sum
+  }
+</script>
+{% endblock content %}

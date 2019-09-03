@@ -1,0 +1,43 @@
+{% extends "inventory-layout.html" %}
+
+{% block content %}
+  <div class="row">
+    <div class="col">
+      <div id="toolbarReplenishments" class="row">
+        <p class="h3 text-center font-weight-light font-italic ml-3">Inventory Replenishments</p>
+      </div>
+      <table
+        id="replenishments-table"
+        data-toggle="table"
+        data-toolbar="#toolbarReplenishments"
+        data-height="700"
+        data-search="true"
+        data-sortable="true"
+        data-show-columns="true">
+        <thead>
+          <tr>
+
+            {% for header in Inventory.header %}
+
+                <th data-field="{{ header }}" data-sortable="true">{{ header }}</th>
+
+            {% endfor %}
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in Inventory.data %}
+            <tr>
+              {% set index = loop.index %}
+              {% for col in Inventory.header %}
+
+                <td nowrap>{{ row[col] }}</td>
+
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
