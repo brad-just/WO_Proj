@@ -1,0 +1,132 @@
+<div id="toolbar-wo" class="row">
+  <p class="h3 text-center font-weight-light font-italic ml-3">{{ department }} Orders</p>
+</div>
+<table
+  id="wo-table"
+  data-toggle="table"
+  data-toolbar="#toolbar-wo"
+  data-height="500"
+  data-search="true"
+  data-sortable="true"
+  data-show-columns="true"
+  data-show-footer="true">
+  <thead>
+    <tr>
+      {% for header in Orders.header %}
+
+        {% if header != 'LongDesc' and header != 'WorkOrderKey'%}
+          {% if header == 'TranNoRel' %}
+
+            <th data-field="{{ header }}" data-sortable="true" data-footer-formatter="totalWords">{{ header }}</th>
+
+          {% elif header == 'SOLineNo' %}
+
+            <th data-field="{{ header }}" data-sortable="true" data-footer-formatter="totalOrders">{{ header }}</th>
+
+          {% elif header == 'Quantity'  or header == 'QuantityToDate'%}
+
+            <th data-field="{{ header }}" data-sortable="true" data-footer-formatter="sumColumn">{{ header }}</th>
+
+          {% else %}
+
+            <th data-field="{{ header }}" data-sortable="true">{{ header }}</th>
+
+          {% endif %}
+
+        {% endif %}
+
+      {% endfor %}
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in Orders.data %}
+      <tr>
+        {% set index = loop.index %}
+
+        {% for col in Orders.header %}
+          {% if col == "ItemID" %}
+
+            <td data-formindex="{{ index }}" nowrap>
+              <button nowrap type="button" class="btn btn-link p-0" data-toggle="modal" data-target="#modal-{{ index }}">{{ row[col] }}</button>
+            </td>
+
+            <!-- Modal -->
+            <div class="modal fade" id="modal-{{ index }}" tabindex="-1" role="dialog" aria-labelledby="modal-{{ index }}-label" aria-hidden="true">
+              <div class="modal-dialog modal-lg bg-cream" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modal-{{ index }}-title">{{ row[col] }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <embed src="{{ url_for('pdfs.static', filename=row[col]+'.pdf') }}" frameborder="0" width="100%" height="700px">
+                  </div>
+                  <div class="modal-footer">
+                    <form id="form-{{ index }}" action="#" method="POST">
+                      <input type="hidden" name="WorkOrderKey" value="{{ row['WorkOrderKey'] }}">
+                      <input type="hidden" name="index" value="{{ index }}">
+                      <input type="submit" class="btn btn-secondary" name="dummy" value="See Steps">
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <script type="text/javascript">
+                      var form = document.getElementById("form-{{ index }}")
+                      form.action = $(location).attr('href');
+                    </script>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          {% elif col == "ShortDesc" %}
+
+            <td nowrap>
+              <button nowrap tabindex="0" type="button" class="btn btn-link p-0" data-toggle="popover" data-trigger="focus" title="Long Description" data-content="{{ row['LongDesc'] }}">{{ row[col] }}</button>
+            </td>
+
+          {% elif col != 'LongDesc' and col != 'WorkOrderKey' %}
+
+            <td nowrap>{{ row[col] }}</td>
+
+          {% endif %}
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+  var $table = $('#wo-table')
+
+  $table.on("click-row.bs.table", function (dead, row, meta, field) {
+      if(field != 'ItemID' && field != 'ShortDesc'){
+        var index = row._ItemID_data.formindex;
+        var id = 'form-'+index;
+        var form = document.getElementById(id);
+        form.submit();
+      }
+    }
+  )
+
+  $(function() {
+      $table.bootstrapTable('scrollTo', {unit: 'rows', value: {{ scrollToIndex }}})
+  })
+
+  function totalWords(){
+    return 'Total'
+  }
+
+  function totalOrders(data){
+    return data.length
+  }
+
+  function sumColumn(data){
+    var field = this.field
+    var sum = 0
+    data.forEach(function(row){
+      sum += Number(row[field])
+    })
+    return sum
+  }
+</script>

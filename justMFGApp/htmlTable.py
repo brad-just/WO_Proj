@@ -59,3 +59,16 @@ class Table(object):
 
         with open(file_path, 'w') as write_file:
             write_file.write(json.dumps(new_data))
+
+    def executeQuery(self, host, user, password, database, query):
+        conn = pymssql.connect(host=host, user=user, password=password, database=database)
+        cursor = conn.cursor(as_dict=True)
+
+        cursor.execute(query)
+
+        data = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return(data)

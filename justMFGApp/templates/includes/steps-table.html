@@ -1,0 +1,65 @@
+{% set header = Steps[0].keys() %}
+<script>
+  console.log('Reached steps')
+
+</script>
+<div id="toolbar-Steps">
+  <p class="h3 text-center font-weight-light font-italic">Follow These Steps</p>
+</div>
+<table
+  id="Steps-table"
+  data-toggle="table"
+  data-height="420"
+  data-toolbar="#toolbar-Steps"
+  data-search="true"
+  data-show-columns="true">
+  <thead>
+    <tr>
+
+      <th data-field="Step">Step</th>
+      {% for item in header %}
+
+          {% if item != 'LongDesc' %}
+
+            <th data-field="{{ item }}">{{ item }}</th>
+
+          {% endif %}
+
+      {% endfor %}
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in Steps %}
+      <tr>
+        {% set index = loop.index %}
+          <td nowrap class="font-weight-bold">{{ index }}</td>
+        {% for col in header %}
+
+          {% if col != 'LongDesc' %}
+
+            {% if col == 'ShortDesc' %}
+              <td nowrap>
+                <a tabindex="0"
+                   class="btn-link"
+                   role="button"
+                   data-toggle="popover"
+                   data-trigger="focus"
+                   title="Long Description"
+                   data-content="{{ row['LongDesc'] }}">
+                    {{ row['ShortDesc'] }}
+                </a>
+              </td>
+            {% else %}
+
+              <td nowrap>{{ row[col] }}</td>
+
+            {% endif %}
+
+          {% endif %}
+
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

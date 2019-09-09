@@ -1,5 +1,4 @@
 from flask import Flask
-from justMFGApp.WorkOrders import WorkOrders
 from justMFGApp.htmlTable import Table
 from justMFGApp.config import config
 
@@ -7,11 +6,13 @@ from justMFGApp.config import config
 app = Flask(__name__)
 app.secret_key = config['sec_key']
 
-#Create a new WorkOrders object called data
-WO_Data_Gen = WorkOrders()
-WO_Data_BowlCust = WorkOrders()
-Orders_With_ItemID = WorkOrders()
+#Create Table objects wich will house the table data for each page
+Custom = Table()
+Bowl = Table()
+BowlCust = Table()
+Engineering = Table()
+Laser = Table()
+Brake = Table()
 Inventory = Table()
-MaterialItems = Table()
 
 from justMFGApp import routes
